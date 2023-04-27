@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <!-- Adicione os arquivos CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+<!-- Adicione o cabeçalho -->
+<header class="bg-dark text-white">
+    <div class="container">
+        <br>
+        <h1>Calculadora de Notas - 4º Período</h1>
+        <br>
+    </div>
+</header>
+<!-- Adicione o conteúdo principal do site -->
+<main class="container mt-4">
+    <div class="form-group">
+        <label for="opcoes">Opções:</label>
+        <!-- Adicione o input de seleção -->
+        <select class="form-control" id="opcoes" onchange="mostrarDiv()">
+            <option value="">Selecione uma cadeira</option>
+            <option value="iac">Introdução à Arquitetura de Computadores</option>
+            <option value="emd">Elementos da Matemática Discreta</option>
+            <option value="cdi">Cálculo Diferencial e Integral II</option>
+        </select>
+    </div>
+    <div id="conteudo"></div>
+    <div class="container">
+        <footer class="py-3 my-4">
+        
+            <hr>
+          <p class="text-center text-body-secondary"><a href="https://github.com/Francisca105/calculadora-notas-p4-leic" target="_blank">GitHub</a></p>
+        </footer>
+      </div>
+</main>
+<!-- Adicione os arquivos JavaScript do Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmIa0WwBqTkjBf6k/1x"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script>
+    function mostrarDiv() {
+        // Obter o valor do input de seleção
+        var opcaoSelecionada = document.getElementById("opcoes").value;
+        var div = `
+
+<div id="${opcaoSelecionada}" class="mt-4">
+    <h3>Cadeira: ${opcaoSelecionada}</h3>
+    <form id="calcular">
+        {{ form }}
+        <button type="submit" id="enviar" class="btn btn-primary">Enviar</button>
+    </form>
+</div>`;
+        var form = `
+        <div class="form-group">
+            <input type="number" class="form-control" id="{{ id }}" name="input1" placeholder="{{ placeholder }}" min="0" max="20" required>
+        </div><br>
+        `;
+
+        // Verificar se uma opção foi selecionada
+        if (opcaoSelecionada == "emd") {
+            // Criar a div com os inputs numéricos e o botão de submissão
+            var formulario = form.replace("{{ id }}", "input1").replace("{{ placeholder }}", "MAP 1");
+            formulario += form.replace("{{ id }}", "input2").replace("{{ placeholder }}", "MAP 2");
+            formulario += form.replace("{{ id }}", "input3").replace("{{ placeholder }}", "MAP 3");
+
+            var conteudo = div.replace("{{ form }}", formulario);
+            // Atualizar a div com o conteúdo criado
+            document.getElementById("conteudo").innerHTML = conteudo;
+        } else if(opcaoSelecionada == 'iac') {
+            var formulario = form.replace("{{ id }}", "input1").replace("{{ placeholder }}", "MAP 1");
+            formulario += form.replace("{{ id }}", "input2").replace("{{ placeholder }}", "MAP 2");
+            formulario += form.replace("{{ id }}", "input3").replace("{{ placeholder }}", "MAP 3");
+            formulario += form.replace("{{ id }}", "input4").replace("{{ placeholder }}", "Projeto Inicial");
+            formulario += form.replace("{{ id }}", "input5").replace("{{ placeholder }}", "Projeto Final");
+
+            var conteudo = div.replace("{{ form }}", formulario);
+            // Atualizar a div com o conteúdo criado
+            document.getElementById("conteudo").innerHTML = conteudo;
+        } else if(opcaoSelecionada == 'cdi') {
+            var formulario = form.replace("{{ id }}", "input1").replace("{{ placeholder }}", "MAP 1");
+            formulario += form.replace("{{ id }}", "input2").replace("{{ placeholder }}", "MAP 2");
+            formulario += form.replace("{{ id }}", "input3").replace("{{ placeholder }}", "EXAME");
+
+            var conteudo = div.replace("{{ form }}", formulario);
+            // Atualizar a div com o conteúdo criado
+            document.getElementById("conteudo").innerHTML = conteudo;
+        } else {
+            // Se nenhuma opção foi selecionada, limpar a div de conteúdo
+            document.getElementById("conteudo").innerHTML = "";
+        }
+
+        var ist = document.getElementById(opcaoSelecionada);
+        if(ist) {
+            ist.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var media = 0;
+                if(opcaoSelecionada == 'emd') {
+                    var input1 = document.getElementById("input1").value;
+                    var input2 = document.getElementById("input2").value;
+                    var input3 = document.getElementById("input3").value;
+                    
+                    media = input1 * 0.3 + input2 * 0.35 + input3 * 0.35;
+                } else if(opcaoSelecionada == 'iac') {
+                    var input1 = document.getElementById("input1").value;
+                    var input2 = document.getElementById("input2").value;
+                    var input3 = document.getElementById("input3").value;
+                    var input4 = document.getElementById("input4").value;
+                    var input5 = document.getElementById("input5").value;
+
+                    var projetos = input4 * 0.1 + input5 * 0.3;
+                    var maps = input1 * 0.2 + input2 * 0.2 + input3 * 0.2;
+                    
+                    media = projetos + maps;
+                } else if(opcaoSelecionada == 'cdi') {
+                    var input1 = document.getElementById("input1").value;
+                    var input2 = document.getElementById("input2").value;
+                    var input3 = document.getElementById("input3").value;
+                    
+                    media = input1 * 0.3 + input2 * 0.3 + input3 * 0.4;
+                }
+
+                alert("Nota: " + Math.round(media));
+            }, false);
+        }
+    }
+
+</script>
+</body>
+</html>
